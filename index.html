@@ -21,7 +21,7 @@
 
             // }
             //movement 
-            document.onkeypress = function(e) {
+            document.onkeypress = function(e) {//onkeydown has interval ms, onkeyup you delete that interval
                 const player = document.getElementById('player')
                 const bomb = document.getElementById('bomb')
                 const playerPos = player.getBoundingClientRect();
@@ -48,6 +48,7 @@
                 //playerPos.right is the distance between the player and the right of the screen
                 
                 //logic, make functional; 
+                //checkOverlap, checkInside(takes two elements and compares position)
 
                 function checkDead(playerAt, bombAt){
                     if(
@@ -84,9 +85,36 @@
             setInterval(createBomb, 5000);
             function createBomb(){
                 console.log(Math.random(20))
-                // document.getElementById('root').innerHTML += '<div id="bomb" style="width:50px; height:50px; position:absolute; right: 400px;bottom: 50px; background-image:url(bomb.jpg);background-size: 50px 50px"></div>'
+                // document.getElementById('root').innerHTML += '<div id="bomb" style="width:50px; height:50px; position:absolute; right:'+ Math.random(500) + 'px;bottom: 50px; background-image:url(bomb.jpg);background-size: 50px 50px"></div>'
+                document.getElementById('root').innerHTML += `<bomb style="width:50px; height:50px; position:absolute; right:${Math.random(500)}px;bottom: 50px; background-image:url(bomb.jpg);background-size: 50px 50px"></bomb>`
+                bombs=document.getElementsByTagName('bomb')
 
             }
+
+            /*function checkCornerInside(x, y, box) {
+    return (
+        y > box.top &&
+        y < box.bottom &&
+        x > box.left && 
+        x < box.right
+    )
+    function checkOverlap(over, under) {
+    return (
+        checkCornerInside(over.left, over.top, under) ||
+        checkCornerInside(over.left, over.bottom, under) ||
+        //bottom right ||
+        //top right
+    )
+}
+        function checkInside(inner, outer) {
+    return (
+        checkCornerInside(box1.left, box1.top, box2) &&
+        checkCornerInside(box1.left, box1.bottom, box2) &&
+        //bottom right &&
+        //top right
+    )
+}
+}*/
            
                 //create functions instead of a million if statements
                 //get randommath positions working
