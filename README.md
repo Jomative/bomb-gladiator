@@ -4,3 +4,4 @@ A game with bombs.
 - [x] go live
 - [ ] random bombs
 - [ ] unit testing
+- [ ] remove keypress lag
