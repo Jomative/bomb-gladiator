@@ -61,7 +61,6 @@ function checkInside(inner, outer) {
     )
 }
 
-
 export function initialize(){
     document.getElementById('root').innerHTML = '<div id="home" style="width:100px; height:100px; position:absolute; top:0px; left:0px; background-image:url(houseicon.jpg);background-size: 100px 100px";></div>'
     //player div
@@ -94,7 +93,7 @@ document.onkeypress = function(e) {//onkeydown has interval ms, onkeyup you dele
         document.getElementById('root').innerHTML = '<div id="banner" ><h1>Game Over!</h1><button id="restart">Restart</button></div>'
         document.getElementById('restart').onclick=initialize
     }
-    //use an array to apply checkDead to all bombs                
+    //use an array to apply checkDead to all bombs
     if (playerPos.top<100  &&
      playerPos.left< 100
     ) {
@@ -102,8 +101,6 @@ document.onkeypress = function(e) {//onkeydown has interval ms, onkeyup you dele
     }
     
 }
-
-
 
 //cannot assign multiple bombs to same variable
 setInterval(createBomb, 5000);
