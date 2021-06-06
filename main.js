@@ -71,8 +71,6 @@ export function initialize(){
 }
 initialize();
 
-//testing for clone and edit capability
-
 //movement 
 document.onkeypress = function(e) {//onkeydown has interval ms, onkeyup you delete that interval
     const player = document.getElementById('player')
