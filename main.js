@@ -1,3 +1,6 @@
+let apple = "apple"
+let running =  true;
+let bombs=[]
 function checkDead(playerAt, bombAt){
     return(
         //top left corner
@@ -15,9 +18,9 @@ function checkDead(playerAt, bombAt){
 }
 
 function createBomb(){
-    console.log(Math.random(20))
     document.getElementById('root').appendChild(stringToNode(`<bomb style="width:50px; height:50px; position:absolute; right:${randomLocation(0, 800)}px;bottom:${randomLocation(0, 800)}px; background-image:url(bomb.jpg);background-size: 50px 50px"></bomb>`))
-    let bombs=document.getElementsByTagName('bomb')
+    bombs.push(root.getElementsByClassName('bomb'))
+    console.log(bombs)
 
 }
 function stringToNode(htmlString) {
@@ -27,8 +30,9 @@ function stringToNode(htmlString) {
 }
 
 function checkAllDead(playerPos, bombArray){
-        for(let i=0; i<bombs.length; i++){
+        for(let i=0; i<100; i++){
             checkDead(playerPos, bombs[i])
+            console.log('inside checkAllDead for loop')
         }
 }
 
@@ -90,12 +94,15 @@ document.onkeypress = function(e) {//onkeydown has interval ms, onkeyup you dele
     if(checkDead(playerPos, bombPos)){
         document.getElementById('root').innerHTML = '<div id="banner" ><h1>Game Over!</h1><button id="restart">Restart</button></div>'
         document.getElementById('restart').onclick=initialize
+        checkAllDead(playerPos, bombPos)
+        console.log('inside if in onkeypress...dead')
     }
     //use an array to apply checkDead to all bombs
     if (playerPos.top<100  &&
      playerPos.left< 100
     ) {
-        alert("welcome home!")
+        document.getElementById('root').innerHTML = '<div id="banner" ><h1>Welcome Home!</h1><button id="restart">Restart</button></div>'
+        document.getElementById('restart').onclick=initialize        
     }
     
 }
