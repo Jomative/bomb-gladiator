@@ -1,6 +1,7 @@
 let apple = "apple"
 let running =  true;
-let bombs=[]
+let bombsCollection=[]
+let bombsArray = []
 function checkDead(playerAt, bombAt){
     return(
         //top left corner
@@ -19,8 +20,9 @@ function checkDead(playerAt, bombAt){
 
 function createBomb(){
     document.getElementById('root').appendChild(stringToNode(`<bomb style="width:50px; height:50px; position:absolute; right:${randomLocation(0, 800)}px;bottom:${randomLocation(0, 800)}px; background-image:url(bomb.jpg);background-size: 50px 50px"></bomb>`))
-    bombs.push(root.getElementsByClassName('bomb'))
-    console.log(bombs)
+    bombsCollection.push(root.querySelectorAll('bomb'))
+    bombsArray = Array.from(bombsCollection) 
+    console.log(bombsArray)
 
 }
 function stringToNode(htmlString) {
@@ -31,7 +33,7 @@ function stringToNode(htmlString) {
 
 function checkAllDead(playerPos, bombArray){
         for(let i=0; i<100; i++){
-            checkDead(playerPos, bombs[i])
+            checkDead(playerPos, bombArray[i]) 
             console.log('inside checkAllDead for loop')
         }
 }
