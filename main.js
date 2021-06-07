@@ -2,6 +2,8 @@ let apple = "apple"
 let running =  true;
 let bombsCollection=[]
 let bombsArray = []
+
+
 function checkDead(playerAt, bombAt){
     return(
         //top left corner
@@ -21,8 +23,10 @@ function checkDead(playerAt, bombAt){
 function createBomb(){
     document.getElementById('root').appendChild(stringToNode(`<bomb style="width:50px; height:50px; position:absolute; right:${randomLocation(0, 800)}px;bottom:${randomLocation(0, 800)}px; background-image:url(bomb.jpg);background-size: 50px 50px"></bomb>`))
     bombsCollection.push(root.querySelectorAll('bomb'))
-    bombsArray = Array.from(bombsCollection) 
+    //bombsArray = Array.from(bombsCollection) 
+    bombsArray = [...bombsCollection]
     console.log(bombsArray)
+
 
 }
 function stringToNode(htmlString) {
@@ -33,8 +37,10 @@ function stringToNode(htmlString) {
 
 function checkAllDead(playerPos, bombArray){
         for(let i=0; i<100; i++){
-            checkDead(playerPos, bombArray[i]) 
             console.log('inside checkAllDead for loop')
+            console.log(bombArray)
+            checkDead(playerPos, bombArray[i]) 
+            
         }
 }
 
@@ -78,11 +84,12 @@ export function initialize(){
 initialize();
 
 //movement 
-document.onkeypress = function(e) {//onkeydown has interval ms, onkeyup you delete that interval
+document.onkeypress = function(e) {//onkeydown has interval ms, onkeyup you delete that interval     
     const player = document.getElementById('player')
     const bomb = document.getElementById('bomb')
     const playerPos = player.getBoundingClientRect();
     const bombPos = bomb.getBoundingClientRect();
+    checkAllDead(playerPos, bombsArray)
     if (e.key== "w") {
         player.style.top = (playerPos.top - 20) + "px" 
     } else if (e.key == "a") {
@@ -93,7 +100,7 @@ document.onkeypress = function(e) {//onkeydown has interval ms, onkeyup you dele
         player.style.top = (playerPos.top + 20) + "px"
         
     }
-    if(checkDead(playerPos, bombPos)){
+    if(checkDead(playerPos, bombPos)){//doesnt get called until player dies
         document.getElementById('root').innerHTML = '<div id="banner" ><h1>Game Over!</h1><button id="restart">Restart</button></div>'
         document.getElementById('restart').onclick=initialize
         checkAllDead(playerPos, bombPos)
