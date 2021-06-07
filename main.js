@@ -1,31 +1,35 @@
-let apple = "apple"
+let bombCount = -1;
 let running =  true;
 let bombsCollection=[]
 let bombsArray = []
 
 
-function checkDead(playerAt, bombAt){
+function checkDead(playerRect, bombRect){
+    checkCornerInside();
     return(
         //top left corner
-        playerAt.top>bombAt.top&&           
-        playerAt.top < bombAt.bottom &&
-        playerAt.left > bombAt.left&&
-        playerAt.left < bombAt.right 
+        playerRect.top>bombRect.top&&           
+        playerRect.top < bombRect.bottom &&
+        playerRect.left > bombRect.left&&
+        playerRect.left < bombRect.right 
 
-        // playerAt.top > bombAt.top&&
-        // playerAt.top < bombAt.bottom&&
-        // playerAt.right > bombAt.right &&
-        // playerAt.right < bombAt.left
-    )                   
+    )
+            
         
 }
 
 function createBomb(){
-    document.getElementById('root').appendChild(stringToNode(`<bomb style="width:50px; height:50px; position:absolute; right:${randomLocation(0, 800)}px;bottom:${randomLocation(0, 800)}px; background-image:url(bomb.jpg);background-size: 50px 50px"></bomb>`))
-    bombsCollection.push(root.querySelectorAll('bomb'))
+    document.getElementById('root').appendChild(stringToNode(`<bomb id="bomb${bombCount}" style="width:50px; height:50px; position:absolute; right:${randomLocation(0, 800)}px;bottom:${randomLocation(0, 800)}px; background-image:url(bomb.jpg);background-size: 50px 50px"></bomb>`))
+    bombCount++;
+    //bombsCollection.push(document.getElementsByTagName("bomb").namedItem(`bomb${bombCount}`))//returns HTMLCollections
+    bombsCollection.push(document.getElementById(`bomb${bombCount}`)) //returns null values
     //bombsArray = Array.from(bombsCollection) 
-    bombsArray = [...bombsCollection]
+    //bombsArray = [...bombsCollection]
+    bombsArray = bombsCollection;
     console.log(bombsArray)
+    console.log(`bomb${bombCount}`)//returns string bomb123etc
+    console.log(document.getElementById(`bomb${bombCount}`))//null
+    console.log(document.getElementById("bomb1"))//returns bomb1
 
 
 }
@@ -44,7 +48,7 @@ function checkAllDead(playerPos, bombArray){
         }
 }
 
-function checkCornerInside(x, y, box) {
+function checkCornerInside(x, y, bombRect) {
     return (
         y > box.top &&
         y < box.bottom &&
@@ -78,7 +82,8 @@ export function initialize(){
     //player div
     document.getElementById('root').innerHTML += '<div id="player" style="width:50px; height:50px; position:absolute; top:720px;left:720px; background-color:green;background-image:url(player.jpg);background-size: 50px 50px"></div>'
     //bombs
-    document.getElementById('root').innerHTML += '<bomb id="bomb" style="width:50px; height:50px; position:absolute; right: 400px;bottom: 50px; background-image:url(bomb.jpg);background-size: 50px 50px"></bomb>'
+    document.getElementById('root').innerHTML += `<bomb id="bomb${bombCount}" style="width:50px; height:50px; position:absolute; right: 400px;bottom: 50px; background-image:url(bomb.jpg);background-size: 50px 50px"></bomb>`
+    bombCount++;
 
 }
 initialize();
@@ -86,10 +91,10 @@ initialize();
 //movement 
 document.onkeypress = function(e) {//onkeydown has interval ms, onkeyup you delete that interval     
     const player = document.getElementById('player')
-    const bomb = document.getElementById('bomb')
+    let bomb = document.getElementById('bomb1')//need to be fixed for all bombs to kill
     const playerPos = player.getBoundingClientRect();
-    const bombPos = bomb.getBoundingClientRect();
-    checkAllDead(playerPos, bombsArray)
+    let bombPos = bomb.getBoundingClientRect();
+    //checkAllDead(playerPos, bombsArray)
     if (e.key== "w") {
         player.style.top = (playerPos.top - 20) + "px" 
     } else if (e.key == "a") {
@@ -103,7 +108,7 @@ document.onkeypress = function(e) {//onkeydown has interval ms, onkeyup you dele
     if(checkDead(playerPos, bombPos)){//doesnt get called until player dies
         document.getElementById('root').innerHTML = '<div id="banner" ><h1>Game Over!</h1><button id="restart">Restart</button></div>'
         document.getElementById('restart').onclick=initialize
-        checkAllDead(playerPos, bombPos)
+        //checkAllDead(playerPos, bombArray)
         console.log('inside if in onkeypress...dead')
     }
     //use an array to apply checkDead to all bombs
