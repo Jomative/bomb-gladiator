@@ -138,6 +138,11 @@ document.onkeypress = function(e) {//onkeydown has interval ms, onkeyup you dele
 //cannot assign multiple bombs to same variable
 let bombInits = setInterval(createBomb, 5000);
 
+//get bomb-1 to work
+//style end screens
+//brainstorm bomb follow player logic
+//perhaps stages? so stage1 is just randombombs, stage2: bombs follow you, stage3: bombs explode and have range of explosion
+
 //all bombs work and kill
 //then deploy
 
