@@ -3,7 +3,6 @@ let alive = true;
 let bombsCollection=[]
 let bombsArray = []
 
-
 function checkDead(playerRect, bombRect){
     //checkCornerInside();
     return(
@@ -32,25 +31,27 @@ function createBomb(){
     //console.log(document.getElementById("bomb1"))//returns bomb1
     console.log(document.getElementsByClassName("explosives"))
     console.log(bombsArray[0].getBoundingClientRect().top)
-
-
-
-
 }
+
 function stringToNode(htmlString) {
     var div = document.createElement('div');
     div.innerHTML = htmlString.trim();
     return div.firstChild; 
 }
 
+function randomLocation(max, min){
+    let rn = Math.random()*(max-min) + min;
+    return(Math.floor(rn))
+}
+
 function checkAllDead(playerPos){
-        for(let i=0; i<bombsArray.length; i++){
-            console.log('inside checkAllDead for loop')
-            if(checkDead(playerPos, bombsArray[i].getBoundingClientRect())){
-                alive=false
-            }
-            
+    for(let i=0; i<bombsArray.length; i++){
+        console.log('inside checkAllDead for loop')
+        if(checkDead(playerPos, bombsArray[i].getBoundingClientRect())){
+            alive=false
         }
+        
+    }
 }
 
 function checkCornerInside(x, y, bombRect) {
@@ -92,16 +93,18 @@ export function initialize(){
     bombCount++;
 
 }
+
 function reset(){
     location.reload();
     initialize();
 }
+
 initialize();
 
 //movement 
 document.onkeypress = function(e) {//onkeydown has interval ms, onkeyup you delete that interval     
     const player = document.getElementById('player')
-    let bomb = document.getElementById('bomb-1')//need to be fixed for all bombs to kill
+    let bomb = document.getElementById('bomb-1')
     const playerPos = player.getBoundingClientRect();
     let bombPos = bomb.getBoundingClientRect();
     checkAllDead(playerPos)
@@ -135,11 +138,6 @@ document.onkeypress = function(e) {//onkeydown has interval ms, onkeyup you dele
 
 //cannot assign multiple bombs to same variable
 let bombInits = setInterval(createBomb, 5000);
-function randomLocation(max, min){
-    let rn = Math.random()*(max-min) + min;
-    return(Math.floor(rn))
-
-}
 
 //all bombs work and kill
 //then deploy
