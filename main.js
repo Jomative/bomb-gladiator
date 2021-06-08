@@ -4,13 +4,13 @@ let bombsCollection=[]
 let bombsArray = []
 
 function checkDead(playerRect, bombRect){
-    //checkCornerInside();
     return(
         //top left corner
-        playerRect.top>bombRect.top&&           
-        playerRect.top < bombRect.bottom &&
-        playerRect.left > bombRect.left&&
-        playerRect.left < bombRect.right 
+        // playerRect.top>bombRect.top&&           
+        // playerRect.top < bombRect.bottom &&
+        // playerRect.left > bombRect.left&&
+        // playerRect.left < bombRect.right 
+        checkOverlap(playerRect, bombRect)
 
     )
             
@@ -54,12 +54,12 @@ function checkAllDead(playerPos){
     }
 }
 
-function checkCornerInside(x, y, bombRect) {
+function checkCornerInside(x, y, boxRect) {
     return (
-        y > box.top &&
-        y < box.bottom &&
-        x > box.left && 
-        x < box.right
+        y > boxRect.top &&
+        y < boxRect.bottom &&
+        x > boxRect.left && 
+        x < boxRect.right
     ) 
 }
 
@@ -73,13 +73,12 @@ function checkOverlap(over, under) {
     )
 }
 
-function checkInside(inner, outer) {
+function checkInside(innerBox, outerBox) {
     return (
-        checkCornerInside(box1.left, box1.top, box2) &&
-        checkCornerInside(box1.left, box1.bottom, box2) &&
-        checkCornerInside()
-        //bottom right &&
-        //top right
+        checkCornerInside(innerBox.left, innerBox.top, outerBox) &&
+        checkCornerInside(innerBox.left, innerBox.bottom, outerBox) &&
+        checkCornerInside(innerBox.right, innerBox.top, outerBox) &&
+        checkCornerInside(innerBox.right, innerBox.bottom, outerBox)
     )
 }
 
