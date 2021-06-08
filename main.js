@@ -1,5 +1,4 @@
 let bombCount = -1;
-let running =  true;
 let alive = true;
 let bombsCollection=[]
 let bombsArray = []
@@ -33,6 +32,7 @@ function createBomb(){
     //console.log(document.getElementById("bomb1"))//returns bomb1
     console.log(document.getElementsByClassName("explosives"))
     console.log(bombsArray[0].getBoundingClientRect().top)
+
 
 
 
@@ -83,6 +83,7 @@ function checkInside(inner, outer) {
 }
 
 export function initialize(){
+    bombCount = -1;
     document.getElementById('root').innerHTML = '<div id="home" style="width:100px; height:100px; position:absolute; top:0px; left:0px; background-image:url(houseicon.jpg);background-size: 100px 100px";></div>'
     //player div
     document.getElementById('root').innerHTML += '<div id="player" style="width:50px; height:50px; position:absolute; top:720px;left:720px; background-color:green;background-image:url(player.jpg);background-size: 50px 50px"></div>'
@@ -91,15 +92,20 @@ export function initialize(){
     bombCount++;
 
 }
+function reset(){
+    location.reload();
+    initialize();
+}
 initialize();
 
 //movement 
 document.onkeypress = function(e) {//onkeydown has interval ms, onkeyup you delete that interval     
     const player = document.getElementById('player')
-    let bomb = document.getElementById('bomb1')//need to be fixed for all bombs to kill
+    let bomb = document.getElementById('bomb-1')//need to be fixed for all bombs to kill
     const playerPos = player.getBoundingClientRect();
     let bombPos = bomb.getBoundingClientRect();
     checkAllDead(playerPos)
+    //checkDead(playerPos, bombPos) hoped this would fix bomb-1 not killing
     if (e.key== "w") {
         player.style.top = (playerPos.top - 20) + "px" 
     } else if (e.key == "a") {
@@ -112,7 +118,8 @@ document.onkeypress = function(e) {//onkeydown has interval ms, onkeyup you dele
     }
     if(!alive){//doesnt get called until player dies
         document.getElementById('root').innerHTML = '<div id="banner" ><h1>Game Over!</h1><button id="restart">Restart</button></div>'
-        document.getElementById('restart').onclick=reload
+        document.getElementById('restart').onclick=reset
+        clearInterval(bombInits);
         
         console.log('inside if in onkeypress...dead')
     }
@@ -121,13 +128,13 @@ document.onkeypress = function(e) {//onkeydown has interval ms, onkeyup you dele
      playerPos.left< 100
     ) {
         document.getElementById('root').innerHTML = '<div id="banner" ><h1>Welcome Home!</h1><button id="restart">Restart</button></div>'
-        document.getElementById('restart').onclick=window.location.reload   
+        document.getElementById('restart').onclick=reset
     }
     
 }
 
 //cannot assign multiple bombs to same variable
-setInterval(createBomb, 5000);
+let bombInits = setInterval(createBomb, 5000);
 function randomLocation(max, min){
     let rn = Math.random()*(max-min) + min;
     return(Math.floor(rn))
