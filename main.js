@@ -18,7 +18,7 @@ function checkDead(playerRect, bombRect){
 }
 
 function createBomb(){
-    document.getElementById('root').appendChild(stringToNode(`<bomb id="bomb${bombCount}" class="explosives" style="width:50px; height:50px; position:absolute; right:${randomLocation(0, 800)}px;bottom:${randomLocation(0, 800)}px; background-image:url(bomb.jpg);background-size: 50px 50px"></bomb>`))
+    document.getElementById('root').appendChild(stringToNode(`<bomb id="bomb${bombCount}" class="explosives" style="width:50px; height:50px; position:absolute; right:${randomLocation(50, 1600)}px;bottom:${randomLocation(0, 800)}px; background-image:url(bomb.jpg);background-size: 50px 50px"></bomb>`))
     bombCount++;
     //bombsCollection.push(document.getElementsByTagName("bomb").namedItem(`bomb${bombCount}`))//returns HTMLCollections
     bombsCollection.push(document.getElementsByClassName("explosives")[`${bombCount}`]) 
@@ -120,7 +120,7 @@ document.onkeypress = function(e) {//onkeydown has interval ms, onkeyup you dele
         
     }
     if(!alive){//doesnt get called until player dies
-        document.getElementById('root').innerHTML = '<div id="banner" ><h1>Game Over!</h1><button id="restart">Restart</button></div>'
+        document.getElementById('root').innerHTML = '<div id="banner" text-align: center><h1>Game Over!</h1><button id="restart">Restart</button></div>'
         document.getElementById('restart').onclick=reset
         clearInterval(bombInits);
         
@@ -130,7 +130,7 @@ document.onkeypress = function(e) {//onkeydown has interval ms, onkeyup you dele
     if (playerPos.top<100  &&
      playerPos.left< 100
     ) {
-        document.getElementById('root').innerHTML = '<div id="banner" ><h1>Welcome Home!</h1><button id="restart">Restart</button></div>'
+        document.getElementById('root').innerHTML = '<div id="banner" text-align: center ><h1>Welcome Home!</h1><button id="restart">Restart</button></div>'
         document.getElementById('restart').onclick=reset
     }
     
