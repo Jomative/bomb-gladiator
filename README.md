@@ -2,7 +2,7 @@
 A game with bombs.
 ## Feature list
 - [x] go live
-- [ ] random bombs
-- [ ] update collision/overlap/isInside detecting
+- [x] random bombs(done but needs tweaking)
+- [x] update collision/overlap/isInside detecting
 - [ ] unit testing
 - [ ] remove keypress lag
