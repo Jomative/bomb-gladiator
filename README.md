@@ -6,3 +6,5 @@ A game with bombs.
 - [x] update collision/overlap/isInside detecting
 - [ ] unit testing
 - [ ] remove keypress lag
+- [ ] add start screen with instructions/controls, etc.
+- [ ] fix issue with character not being on screen(add bounds)
