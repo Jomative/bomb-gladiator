@@ -1,27 +1,19 @@
-let bombCount = -1;
+let bombCount = 0;
 let alive = true;
 let bombsCollection=[]
 let bombsArray = []
 
 function checkDead(playerRect, bombRect){
-    return(
-        //top left corner
-        // playerRect.top>bombRect.top&&           
-        // playerRect.top < bombRect.bottom &&
-        // playerRect.left > bombRect.left&&
-        // playerRect.left < bombRect.right 
-        checkOverlap(playerRect, bombRect)
-
-    )
-            
-        
+    return checkOverlap(playerRect, bombRect)       
 }
-
+//change bottom right to top left
+//dont hardcode pixel values(width/height of screen at start of game, and set valiues relative to that )
+//player cant move past this position, or move them to opposite end
 function createBomb(){
     document.getElementById('root').appendChild(stringToNode(`<bomb id="bomb${bombCount}" class="explosives" style="width:50px; height:50px; position:absolute; right:${randomLocation(50, 1600)}px;bottom:${randomLocation(0, 800)}px; background-image:url(bomb.jpg);background-size: 50px 50px"></bomb>`))
-    bombCount++;
     //bombsCollection.push(document.getElementsByTagName("bomb").namedItem(`bomb${bombCount}`))//returns HTMLCollections
-    bombsCollection.push(document.getElementsByClassName("explosives")[`${bombCount}`]) 
+    bombsCollection.push(document.getElementsByClassName("explosives")[`${bombCount}`])
+    bombCount++; 
     //bombsArray = Array.from(bombsCollection) 
     //bombsArray = [...bombsCollection]
     bombsArray = bombsCollection;
@@ -83,14 +75,12 @@ function checkInside(innerBox, outerBox) {
 }
 
 export function initialize(){
-    bombCount = -1;
+    bombCount = 0;
     document.getElementById('root').innerHTML = '<div id="home" style="width:100px; height:100px; position:absolute; top:0px; left:0px; background-image:url(houseicon.jpg);background-size: 100px 100px";></div>'
     //player div
     document.getElementById('root').innerHTML += '<div id="player" style="width:50px; height:50px; position:absolute; top:720px;left:720px; background-color:green;background-image:url(player.jpg);background-size: 50px 50px"></div>'
     //bombs
-    document.getElementById('root').innerHTML += `<bomb id="bomb${bombCount}" class="explosives" style="width:50px; height:50px; position:absolute; right: 400px;bottom: 50px; background-image:url(bomb.jpg);background-size: 50px 50px"></bomb>`
-    bombCount++;
-
+    createBomb()
 }
 
 function reset(){
@@ -103,9 +93,7 @@ initialize();
 //movement 
 document.onkeypress = function(e) {//onkeydown has interval ms, onkeyup you delete that interval     
     const player = document.getElementById('player')
-    let bomb = document.getElementById('bomb-1')
     const playerPos = player.getBoundingClientRect();
-    let bombPos = bomb.getBoundingClientRect();
     checkAllDead(playerPos)
     //checkDead(playerPos, bombPos) hoped this would fix bomb-1 not killing
     if (e.key== "w") {
@@ -126,13 +114,12 @@ document.onkeypress = function(e) {//onkeydown has interval ms, onkeyup you dele
         console.log('inside if in onkeypress...dead')
     }
     //use an array to apply checkDead to all bombs
-    if (playerPos.top<100  &&
-     playerPos.left< 100
+    if (checkInside(playerPos, document.getElementById("home").getBoundingClientRect())
     ) {
         document.getElementById('root').innerHTML = '<div id="banner" text-align: center ><h1>Welcome Home!</h1><button id="restart">Restart</button></div>'
         document.getElementById('restart').onclick=reset
     }
-    
+    //if(checkOverlap(playerPos, original root pos))
 }
 
 //cannot assign multiple bombs to same variable
@@ -150,4 +137,6 @@ then deploy
 success screen
 dont create bombs on success/over screens(maybe a boolean?)
 return from keypress once game is done(same boolean)
+
+//pause function(in setInterval..if(pause))
 */
