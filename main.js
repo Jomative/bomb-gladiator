@@ -1,7 +1,7 @@
 let bombCount = 0;
-let alive = true;
 let bombsCollection=[]
 let bombsArray = []
+let bombInits = null;
 
 function checkDead(playerRect, bombRect){
     return checkOverlap(playerRect, bombRect)       
@@ -36,15 +36,20 @@ function randomLocation(max, min){
     return(Math.floor(rn))
 }
 
-function checkAllDead(playerPos){
-    for(let i=0; i<bombsArray.length; i++){
-        console.log('inside checkAllDead for loop')
-        if(checkDead(playerPos, bombsArray[i].getBoundingClientRect())){
-            alive=false
-        }
-        
-    }
+function isDead(playerPos){
+    // for(let i=0; i<bombsArray.length; i++){
+    //     const bomb = bombsArray[i]
+    //     console.log('inside checkAllDead for loop')
+    //     if(checkDead(playerPos, bomb.getBoundingClientRect())){
+    //         return true
+    //     }       
+    // }
+    //return false
+      return bombsArray.some(bomb => checkDead(playerPos, bomb.getBoundingClientRect()))
+    //replace for loops with forEach or some() or filter, or find, or map, or reduce
+    
 }
+
 
 function checkCornerInside(x, y, boxRect) {
     return (
@@ -76,15 +81,17 @@ function checkInside(innerBox, outerBox) {
 
 export function initialize(){
     bombCount = 0;
+    //alive
     document.getElementById('root').innerHTML = '<div id="home" style="width:100px; height:100px; position:absolute; top:0px; left:0px; background-image:url(houseicon.jpg);background-size: 100px 100px";></div>'
     //player div
     document.getElementById('root').innerHTML += '<div id="player" style="width:50px; height:50px; position:absolute; top:720px;left:720px; background-color:green;background-image:url(player.jpg);background-size: 50px 50px"></div>'
     //bombs
     createBomb()
+    bombInits = setInterval(createBomb, 5000);
 }
 
 function reset(){
-    location.reload();
+    location.reload();//try to fix initialize not to use this
     initialize();
 }
 
@@ -93,8 +100,7 @@ initialize();
 //movement 
 document.onkeypress = function(e) {//onkeydown has interval ms, onkeyup you delete that interval     
     const player = document.getElementById('player')
-    const playerPos = player.getBoundingClientRect();
-    checkAllDead(playerPos)
+    let playerPos = player.getBoundingClientRect()
     //checkDead(playerPos, bombPos) hoped this would fix bomb-1 not killing
     if (e.key== "w") {
         player.style.top = (playerPos.top - 20) + "px" 
@@ -106,12 +112,12 @@ document.onkeypress = function(e) {//onkeydown has interval ms, onkeyup you dele
         player.style.top = (playerPos.top + 20) + "px"
         
     }
-    if(!alive){//doesnt get called until player dies
+    //create function movePlayer(), which returns post-move BoundingRect
+    playerPos = player.getBoundingClientRect()
+    if(isDead(playerPos)){//doesnt get called until player dies
         document.getElementById('root').innerHTML = '<div id="banner" text-align: center><h1>Game Over!</h1><button id="restart">Restart</button></div>'
         document.getElementById('restart').onclick=reset
-        clearInterval(bombInits);
-        
-        console.log('inside if in onkeypress...dead')
+        clearInterval(bombInits);        //onDeath func
     }
     //use an array to apply checkDead to all bombs
     if (checkInside(playerPos, document.getElementById("home").getBoundingClientRect())
@@ -123,7 +129,7 @@ document.onkeypress = function(e) {//onkeydown has interval ms, onkeyup you dele
 }
 
 //cannot assign multiple bombs to same variable
-let bombInits = setInterval(createBomb, 5000);
+
 
 /*mini tbd's
 get bomb-1 to work
