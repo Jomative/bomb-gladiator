@@ -140,3 +140,4 @@ return from keypress once game is done(same boolean)
 
 //pause function(in setInterval..if(pause))
 */
+//I am still alive Ryan! I am going to be doing some more work soon!
