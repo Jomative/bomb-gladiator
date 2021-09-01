@@ -98,6 +98,7 @@ function reset(){
 initialize();
 
 //movement 
+//https://stackoverflow.com/questions/12273451/how-to-fix-delay-in-javascript-keydown
 document.onkeypress = function(e) {//onkeydown has interval ms, onkeyup you delete that interval     
     const player = document.getElementById('player')
     let playerPos = player.getBoundingClientRect()
